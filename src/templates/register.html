@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<h2>Resgister</h2>
+
+{% if error %}
+<p class="error"><strong>Error:</strong> {{ error }}
+  {% endif %}
+<!--
+<form action="{{ url_for('login') }}" method="post" class="col-lg-6">
+  <div class="form-group">
+    <label for="username">Username</label>
+    <input class="form-control" type="text" name="username" id="username" />
+  </div>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input class="form-control" type="password" name="password" id="password" />
+  </div>
+  <input type="submit" class="btn btn-default" value="Login" />
+</form>-->
+
+{% endblock %}
