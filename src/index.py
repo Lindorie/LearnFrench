@@ -117,9 +117,7 @@ def register():
             db.commit()
             flash('You were successfully registered. Try to log in!')
         return render_template('register.html', form=form, error=error)
-
-
-
+    return render_template('register.html')
 
 
 if __name__ == '__main__':
