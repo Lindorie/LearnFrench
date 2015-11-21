@@ -22,6 +22,8 @@ def init(app):
         app.config['username'] = config.get("config", "username")
         app.config['password'] = config.get("config", "password")
 
+        app.secret_key = "supersecretkey"
+
     except:
         print ('Could not read config from: '), config_location
 
@@ -68,10 +70,12 @@ def login():
         if request.form['username'] != '' and request.form['password'] != '':
             # Check if the username exists in the database
             query = 'SELECT * FROM users WHERE username = ?'
-            user = query_db(query, [request.form['username']])
+            user = query_db(query, [request.form['username']], one=True)
             if user:
                 # Check if the passwords are identical
-                if request.form['password'] == user['password']:
+                password_bytes = request.form['password'].encode('utf-8')
+                passTest = bcrypt.hashpw(password_bytes, bcrypt.gensalt())
+                if passTest == user['password']:
                     session['logged_in'] = True
                     flash('You were logged in.')
                     return redirect(url_for('home'))
@@ -105,13 +109,15 @@ def register():
             error.append("Please enter the same password in both of the password fields")
         # Check if the email address is already used
         query = 'SELECT * FROM users WHERE email = ?'
-        testEmail = query_db(query, [request.form['email']])
+        testEmail = query_db(query, [request.form['email']], one=True)
         if testEmail:
-            error.append("The email address provided is already used by the user " + testEmail['username'])
+            errorEmail = "The email address provided is already used by the user " + testEmail['username']
+            error.append(errorEmail)
         # Insert in the database if everything is ok
         if not error:
             # Hash the password
-            password = bcrypt.hashpw(request.form['password'], bcrypt.gensalt())
+            password_bytes = request.form['password'].encode('utf-8')
+            password = bcrypt.hashpw(password_bytes, bcrypt.gensalt())
             # Insert
             db = get_db()
             db.cursor().execute('INSERT INTO users (username, password, email) VALUES (?,?,?)', [request.form['username'], password, request.form['email']])
