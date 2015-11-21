@@ -16,20 +16,20 @@
 
     <form action="{{ url_for('register') }}" method="post" class="col-lg-6">
         <div class="form-group">
-            <label for="username">Choose your username*</label>
-            <input class="form-control" type="text" name="username" id="username" required />
+            <label for="username">Your username*</label>
+            <input value="{% if form %} {{ form.username }} {% endif %}" class="form-control" type="text" name="username" id="username" required />
         </div>
         <div class="form-group">
-            <label for="password">Choose your password*</label>
+            <label for="password">Your password*</label>
             <input class="form-control" type="password" name="password" id="password" required />
         </div>
         <div class="form-group">
-            <label for="password2">Write your password again*</label>
+            <label for="password2">Your password again*</label>
             <input class="form-control" type="password" name="password2" id="password2" required />
         </div>
         <div class="form-group">
-            <label for="email">Write your email address here*</label>
-            <input class="form-control" type="email" name="email" id="email" required />
+            <label for="email">Your email address*</label>
+            <input value="{% if form %} {{ form.email }} {% endif %}" class="form-control" type="email" name="email" id="email" required />
         </div>
         <input type="submit" class="btn btn-default" value="Register" />
     </form>

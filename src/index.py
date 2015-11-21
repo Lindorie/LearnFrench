@@ -122,6 +122,7 @@ def register():
             db.cursor().execute('INSERT INTO users (username, password, email) VALUES (?,?,?)', [request.form['username'], password, request.form['email']])
             db.commit()
             flash('You were successfully registered. Try to log in!')
+            return render_template('login.html')
         return render_template('register.html', form=form, error=error)
     return render_template('register.html')
 
