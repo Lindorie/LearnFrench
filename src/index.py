@@ -77,6 +77,7 @@ def login():
                 testPassword = bcrypt.check_password_hash(user['password'], request.form['password'])
                 if testPassword:
                     session['logged_in'] = True
+                    session['id'] = user['id']
                     flash('You were logged in.')
                     return redirect(url_for('home'))
                 else:
@@ -126,6 +127,31 @@ def register():
         return render_template('register.html', form=form, error=error)
     return render_template('register.html')
 
+@app.route('/profile')
+def profile():
+    # Retrieve user information
+    query = 'SELECT * FROM users WHERE id = ?'
+    user = query_db(query, [session['id']], one=True)
+    if not user:
+        flash("This user doesn't exist")
+        return redirect(url_for('home'))
+    return render_template('profile.html', user=user)
+
+@app.route('/rules')
+def rules():
+    return render_template('rules.html')
+
+@app.route('/basic_vocabulary')
+def basic_voc():
+    return render_template('basic_voc.html')
+
+@app.route('/build_sentence')
+def build_sentence():
+    return render_template('build_sentence.html')
+
+@app.route('/quiz_beginners')
+def quiz_beginners():
+    return render_template('quiz_beginners.html')
 
 if __name__ == '__main__':
     init(app)

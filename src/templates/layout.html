@@ -28,7 +28,7 @@
                     <a href="{{ url_for('login') }}">log in</a> -
                     <a href="{{ url_for('register') }}">register</a>
                 {% else %}
-                    (<a href="{{ url_for('logout') }}">log out</a>)
+                    <a href="{{ url_for('profile') }}">Profile</a> (<a href="{{ url_for('logout') }}">log out</a>)
                 {% endif %}
             </p>
         </div>
@@ -37,6 +37,23 @@
 
     <div id="left-side">
         <h1 class="text-hide">Learn French with Carine</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li>Basics
+                    <ul>
+                        <li><a href="{{ url_for('rules') }}">Rules for pronunciation</a></li>
+                        <li><a href="{{ url_for('basic_voc') }}">Basic vocabulary</a></li>
+                        <li><a href="{{ url_for('build_sentence') }}">How to build a sentence</a></li>
+                        <li><a href="{{ url_for('quiz_beginners') }}">Quiz for beginners</a></li>
+                    </ul>
+                </li>
+                <li><a href="{{ url_for('home') }}">Vocabulary</a></li>
+                <li><a href="{{ url_for('home') }}">Culture</a></li>
+                <li><a href="{{ url_for('home') }}">Quiz</a></li>
+                <li><a href="{{ url_for('home') }}">Games</a></li>
+            </ul>
+        </nav>
     </div>
     <div id="right-side">
         {% for message in get_flashed_messages() %}

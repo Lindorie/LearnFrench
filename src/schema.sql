@@ -5,4 +5,5 @@ CREATE TABLE users (
     username varchar(100) NOT NULL,
     password varchar(300) NOT NULL,
     email varchar(150) NOT NULL
+    level varchar(50) NOT NULL DEFAULT "Beginner"
 );
