@@ -25,6 +25,7 @@ body {
   display: table-cell;
   background: rgba(235,88,111,.9);
   border-radius: 0 10px 10px 0;
+  padding: 15px;
 }
 
 h1 {
