@@ -13,11 +13,11 @@
     <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
 </head>
 <body>
-    <nav class="navbar navbar-fixed-top">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
 
             <div class="navbar-header">
-                <a class="navbar-brand" href="{{ url_for('home') }}">Learn French with Carine</a>
+                <a class="navbar-brand text-hide" href="{{ url_for('home') }}">Learn French with Carine</a>
             </div>
             <ul class="nav navbar-nav">
                 <li><a href="{{ url_for('home') }}">Home</a></li>
@@ -33,15 +33,17 @@
             </p>
         </div>
     </nav>
+    <div id="page">
 
-    <div id="header" class="container-fluid">
-        <h1><a href="{{ url_for('home') }}">Learn French with Carine</a></h1>
+    <div id="left-side">
+        <h1 class="text-hide">Learn French with Carine</h1>
     </div>
-    <div id="page" class="container">
+    <div id="right-side">
         {% for message in get_flashed_messages() %}
         <div class="alert alert-info">{{ message }}</div>
         {% endfor %}
         {% block body %}{% endblock %}
+    </div>
     </div>
 </body>
 </html>

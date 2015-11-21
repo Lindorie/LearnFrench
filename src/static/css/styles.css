@@ -1,1 +1,43 @@
 /* Customised styles */
+
+body {
+  background: url(/static/images/background.jpg) no-repeat left top;
+  background-size: cover;
+}
+
+#page {
+  width: 960px;
+  margin: 70px auto;
+  border-radius: 10px;
+  display: table;
+  box-shadow: 0px 0px 15px #aaa;
+}
+
+#left-side {
+  background: rgba(239,236,236,.9);
+  width: 30%;
+  border-radius: 10px 0 0 10px;
+  display: table-cell;
+  vertical-align: top;
+}
+
+#right-side {
+  display: table-cell;
+  background: rgba(235,88,111,.9);
+  border-radius: 0 10px 10px 0;
+}
+
+h1 {
+  background: url(/static/images/logo_gray.png) no-repeat 0 10px;
+  height: 140px;
+  width: 130px;
+  margin: 0 10px;
+  padding: 10px 10px 10px 0;
+  border-right: 1px solid #aaa !important;
+}
+
+h1:hover {
+  background-image: url(/static/images/logo_colour.png);
+  transition: background 1s;
+  -webkit-transition: background 1s;
+}
