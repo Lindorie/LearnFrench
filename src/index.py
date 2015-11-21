@@ -1,10 +1,11 @@
 import ConfigParser
 import sqlite3
-import bcrypt
 
 from flask import Flask, request, session, redirect, url_for, abort, render_template, flash, g
+from flask.ext.bcrypt import Bcrypt
 
 app = Flask(__name__)
+bcrypt = Bcrypt(app)
 db_location = 'var/data.db'
 
 # FUNCTIONS
@@ -71,7 +72,8 @@ def login():
             user = query_db(query, [request.form['username']])
             if user:
                 # Check if the passwords are identical
-                if request.form['password'] == user['password']:
+                testPassword = bcrypt.check_password_hash(user['password'], request.form['password'])
+                if testPassword:
                     session['logged_in'] = True
                     flash('You were logged in.')
                     return redirect(url_for('home'))
@@ -111,7 +113,7 @@ def register():
         # Insert in the database if everything is ok
         if not error:
             # Hash the password
-            password = bcrypt.hashpw(request.form['password'], bcrypt.gensalt())
+            password = bcrypt.generate_password_hash(request.form['password'])
             # Insert
             db = get_db()
             db.cursor().execute('INSERT INTO users (username, password, email) VALUES (?,?,?)', [request.form['username'], password, request.form['email']])
