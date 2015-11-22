@@ -69,3 +69,13 @@ div.explain {
   background: #fff;
   border: 1px solid #edc4ca;
 }
+
+p a:link, p a:hover, p a:focus, p a:visited {
+  text-decoration: none;
+  color: #fff;
+  border-bottom: 1px dashed #fff;
+}
+
+p a:hover {
+  border: 0;
+}
