@@ -70,7 +70,7 @@ of each letter of the alphabet. Let's begin!</p>
       <audio id="alph_g">
         <source src="{{ url_for('static', filename='sounds/G.wav') }}" type="audio/wav">
         Your browser doesn't support this type of file.
-      </audio></td>
+      </audio>G</td>
   </tr>
   <tr>
     <td>
@@ -245,8 +245,33 @@ trema (<strong>&euml;</strong>). They indicate different sounds:</p>
 
 <table>
   <tr>
-    <td>&eacute;<br /><span class="eg">e.g. cin<strong>&eacute;</strong>ma</span></td>
-    <td>&egrave;, &ecirc;, &euml;<br /><span class="eg">e.g.
+    <td>
+      <a href="#" onclick="playSound('eacute');return false;">
+        <span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span>
+      </a>
+      <audio id="eacute">
+        <source src="{{ url_for('static', filename='sounds/Eacute.wav') }}" type="audio/wav">
+        Your browser doesn't support this type of file.
+      </audio>
+      &eacute;<br />
+      <span class="eg">e.g. <a href="#" data-toggle="tooltip" data-placement="top" title="EN: Cinema">cin<strong>&eacute;</strong>ma</a>
+        <a href="#" onclick="playSound('cinema');return false;">
+          <span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span>
+        </a>
+        <audio id="cinema">
+          <source src="{{ url_for('static', filename='sounds/Cinema.wav') }}" type="audio/wav">
+          Your browser doesn't support this type of file.
+        </audio>
+      </span></td>
+    <td>
+      <a href="#" onclick="playSound('egrave');return false;">
+        <span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span>
+      </a>
+      <audio id="egrave">
+        <source src="{{ url_for('static', filename='sounds/Egrave.wav') }}" type="audio/wav">
+        Your browser doesn't support this type of file.
+      </audio>
+      &egrave;, &ecirc;, &euml;<br /><span class="eg">e.g.
     cr<strong>&egrave;</strong>me, f<strong>&ecirc;</strong>te,
     No<strong>&euml;</strong>l</span></td>
   </tr>
