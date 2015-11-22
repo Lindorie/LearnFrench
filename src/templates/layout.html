@@ -11,6 +11,16 @@
 
     <!-- IMPORT JAVASCRIPT -->
     <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+
+    <script type="text/javascript">
+        $(function () {
+          $('[data-toggle="popover"]').popover()
+
+           function playSound(sound) {
+              $('#'+sound).play();
+           }
+        })
+    </script>
 </head>
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">

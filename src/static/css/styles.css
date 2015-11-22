@@ -79,3 +79,14 @@ p a:link, p a:hover, p a:focus, p a:visited {
 p a:hover {
   border: 0;
 }
+
+.alphabet td {
+    font-size: 18px;
+}
+
+.alphabet span.glyphicon {
+    float: left;
+    font-size: 24px;
+    color: #ccc;
+    margin: 0px 5px 0 0;
+}

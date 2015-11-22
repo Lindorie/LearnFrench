@@ -2,18 +2,26 @@
 
 {% block body %}
 
-<h2>Rules for pronounciation</h2>
+<h2>Rules for pronunciation</h2>
 
 <h3>The alphabet</h3>
 
 <p>The French alphabet, like in English, has 26 letters.</p>
-<p>To know how to pronounce French words, you have to master the pronounciation
+<p>To know how to pronounce French words, you have to master the pronunciation
 of each letter of the alphabet. Let's begin!</p>
 
-<table>
+<table class="alphabet">
   <tr>
-    <td>A <span class="glyphicon glyphicon-volume-up"
-    aria-hidden="true"></span> </td>
+    <td>
+      <a onclick="playSound('alph_a')">
+        <span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span>
+      </a>
+      <audio id="alph_a">
+        <source src="{{ url_for('static', filename='sounds/A.wav') }}" type="audio/wav">
+        Your browser doesn't support this type of file.
+      </audio>
+      A
+    </td>
     <td>B</td>
     <td>C</td>
     <td>D</td>
@@ -52,7 +60,7 @@ of each letter of the alphabet. Let's begin!</p>
 
 <p>The French alphabet differs from English because there can be accents on
 certain letters or a mark like the cedilla.They are used to change the
-pronounciation or the meaning of the words.</p>
+pronunciation or the meaning of the words.</p>
 
 <h5>Accents on the letter E</h5>
 
@@ -99,7 +107,7 @@ letter <strong>S</strong>.</p>
 <h3>Other sounds</h3>
 
 <p>The French language has many other sounds that you have to know for the
-correct pronounciation.</p>
+correct pronunciation.</p>
 
 <h4>Vowels</h4>
 
@@ -135,9 +143,9 @@ pronounce them in the right way and learn them by heart.</p>
 </table>
 
 <p>Be careful when you see these combinations in a word, because it could be a
-different pronounciation, depending on the place inside the word and which
+different pronunciation, depending on the place inside the word and which
 letter(s) there is (are) after.</p>
-<p>If you listen to the following words, they differ on the pronounciation, mainly because
+<p>If you listen to the following words, they differ on the pronunciation, mainly because
 there is a vowel directly after the nasal sound. So you have to split the word
 into different syllables.</p>
 
@@ -204,7 +212,7 @@ English, be careful of that. Indeed, the French <strong>ch</strong> is similar t
 in "shot", and the French <strong>j</strong> is similar to English <strong>s</strong> in the
 word "Asia".</p>
 <p>Also, the <strong>J</strong> and the <strong>G</strong> have the same
-pronounciation when <strong>G</strong> is followed by the letter
+pronunciation when <strong>G</strong> is followed by the letter
 <strong>E</strong> or <strong>I</strong>.
 
 <table>
@@ -234,7 +242,7 @@ is the same as the English <strong>g</strong>:</p>
 <table>
   <tr>
     <td><strong>h</strong>&ocirc;pital, <strong>h</strong>ibou,
-    <strong>h</strong>&eacute;ros</strong>, <strong>h</strong>abiter</td>
+    <strong>h</strong>&eacute;ros, <strong>h</strong>abiter</td>
   </tr>
 </table>
 
@@ -265,7 +273,7 @@ inside a word:</p>
   </tr>
 </table>
 
-<p>For more explanations about rules of French pronounciation, <a
+<p>For more explanations about rules of French pronunciation, <a
 href="http://dardel.info/French_pronunciation.html">have a look on
 this page.</a></p>
 
