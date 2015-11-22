@@ -10,16 +10,19 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
 
     <!-- IMPORT JAVASCRIPT -->
+    <script type="text/javascript"
+    src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
 
     <script type="text/javascript">
         $(function () {
           $('[data-toggle="popover"]').popover()
-
-           function playSound(sound) {
-              $('#'+sound).play();
-           }
         })
+           function playSound(sound) {
+              var thesound = document.getElementById(sound);
+              thesound.play();
+           }
+
     </script>
 </head>
 <body>
