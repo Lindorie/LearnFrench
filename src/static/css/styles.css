@@ -84,9 +84,14 @@ p a:hover {
     font-size: 18px;
 }
 
-.alphabet span.glyphicon {
+a span.sound {
     float: left;
     font-size: 24px;
     color: #ccc;
     margin: 0px 5px 0 0;
+}
+
+a:hover span.sound {
+    color: #4aa0d5;
+    transition: color 1s;
 }
