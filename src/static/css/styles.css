@@ -84,14 +84,20 @@ p a:hover {
     font-size: 18px;
 }
 
-a span.sound {
+a.sound {
     float: left;
     font-size: 24px;
     color: #ccc;
     margin: 0px 5px 0 0;
 }
 
-a:hover span.sound {
+a:hover.sound {
     color: #4aa0d5;
     transition: color 1s;
+}
+
+span.eg a.sound {
+    float: none;
+    font-size: inherit;
+    display: inline-block;
 }
