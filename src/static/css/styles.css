@@ -58,7 +58,7 @@ table td, table th {
   background: #fff;
 }
 
-table .eg {
+span.eg {
   font-style: italic;
   font-size: 12px;
 }
