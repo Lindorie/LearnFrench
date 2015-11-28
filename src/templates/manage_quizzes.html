@@ -11,7 +11,7 @@
     {% endfor %}
     </ul>
 {% else %}
-    <p class="alert alert-info">No quiz so far. <a href="">Would you like to create one?</a></p>
+    <p class="alert alert-info">No quiz so far. <a href="{{ url_for('add_quiz') }}">Would you like to create one?</a></p>
 {% endif %}
 
 {% endblock %}

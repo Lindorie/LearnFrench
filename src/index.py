@@ -155,6 +155,23 @@ def manage_quizzes():
     quiz = query_db(query)
     return render_template('manage_quizzes.html', quiz=quiz)
 
+@app.route('/add_quiz', methods=['GET', 'POST'])
+def add_quiz():
+    if request.method == 'POST':
+        error = None
+        # Check if the fields are not empty
+        if request.form['title'] != '' and request.form['level'] != '':
+            # Insert the quiz into DB
+            db = get_db()
+            db.cursor().execute('INSERT INTO quiz (title, level) VALUES (?,?)', [request.form['title'], request.form['level']])
+            db.commit()
+            flash('The quiz was added.')
+            return redirect(url_for('manage_quizzes.html'))
+        else:
+            error = "You must enter a title and a level."
+            return render_template('add_quiz.html', error=error, form=request.form)
+    return render_template('add_quiz.html')
+
 @app.route('/add_question')
 def add_question():
     # Security

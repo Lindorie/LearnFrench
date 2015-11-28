@@ -70,7 +70,11 @@
             <nav class="admin">
                 <h2>Administration</h2>
                 <ul>
-                    <li><a href="{{ url_for('manage_quizzes') }}">Manage quizzes</a></li>
+                    <li><a href="{{ url_for('manage_quizzes') }}">Manage quizzes</a>
+                        <ul>
+                            <li><a href="{{ url_for('add_quiz') }}">Create a quiz</a></li>
+                        </ul>
+                    </li>
                     <li><a href="{{ url_for('add_question') }}">Add a question</a></li>
                 </ul>
             </nav>
