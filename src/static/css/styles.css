@@ -1,8 +1,23 @@
 /* Customised styles */
 
-body {
-  background: url(/static/images/background.jpg) no-repeat left top;
+body {  
   background-size: cover;
+  background-repeat: no-repeat;
+  background-position: left top;
+  background-attachment: fixed;
+  background-image: url(/static/images/background3.jpg);
+  animation: switchBackgrounds 48s ease-in-out 0s infinite;
+}
+
+@keyframes switchBackgrounds {
+  0% { background-image: url(/static/images/background4.jpg); } 
+  24% { background-image: url(/static/images/background4.jpg); }
+  26% { background-image: url(/static/images/background2.jpg); } 
+  49% { background-image: url(/static/images/background2.jpg); }  
+  51% { background-image: url(/static/images/background3.jpg); } 
+  74% { background-image: url(/static/images/background3.jpg); }
+  76% { background-image: url(/static/images/background4.jpg); } 
+  100% { background-image: url(/static/images/background4.jpg); }
 }
 
 #page {
@@ -10,22 +25,73 @@ body {
   margin: 70px auto;
   border-radius: 10px;
   display: table;
-  box-shadow: 0px 0px 15px #aaa;
+  box-shadow: 0px 0px 5px #777;
 }
 
 #left-side {
-  background: rgba(239,236,236,.9);
+  background-color: rgba(34,34,34,0.9);
   width: 30%;
   border-radius: 10px 0 0 10px;
   display: table-cell;
   vertical-align: top;
+  color: #ccc;
+}
+
+#left-side a:link,
+#left-side a:visited,
+#left-side a:focus,
+#left-side a:hover {
+  color: #eb586f;
+}
+
+#left-side nav {
+  margin: 15px 0;
+}
+
+#left-side nav ul li {
+  list-style: none;
+}
+
+#left-side nav ul li {
+  text-transform: uppercase;
+  border-bottom: 1px solid #eb586f;
+}
+
+#left-side nav ul li a {
+  display: block;
+  width: 100%;
+  padding: 5px;
+}
+
+#left-side nav ul li a:hover {
+  color: #fff;
+  text-decoration: none;
+  background: #eb586f;
+}
+
+#left-side nav ul ul li {
+  text-transform: none;
+  border: 0;
+}
+
+#left-side nav ul ul li a {
+  padding: 0 0 5px 0;
+}
+
+
+#left-side nav ul ul li a:hover {
+  background: none;
 }
 
 #right-side {
   display: table-cell;
-  background: rgba(235,88,111,.9);
+  background-color: rgba(239,236,236,0.9);    
   border-radius: 0 10px 10px 0;
   padding: 15px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #4AA0D5;
 }
 
 h1 {
@@ -34,13 +100,12 @@ h1 {
   width: 130px;
   margin: 0 10px;
   padding: 10px 10px 10px 0;
-  border-right: 1px solid #aaa !important;
 }
 
 h1:hover {
   background-image: url(/static/images/logo_colour.png);
-  transition: background 1s;
-  -webkit-transition: background 1s;
+  transition: background-image 1s;
+  -webkit-transition: background-image 1s;
 }
 
 h5 {
