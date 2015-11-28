@@ -73,6 +73,8 @@ def login():
             if request.form['username'] == 'admin':
                 # Check the password for admin
                 if request.form['password'] == app.config['password']:
+                    session['logged_in'] = True
+                    session['username'] = app.config['username']
                     return redirect(url_for('home'))
                 else:
                     error = 'Invalid password'
@@ -86,6 +88,7 @@ def login():
                     if testPassword:
                         session['logged_in'] = True
                         session['id'] = user['id']
+                        session['username'] = request.form['username']
                         flash('You were logged in.')
                         return redirect(url_for('home'))
                     else:
@@ -144,6 +147,22 @@ def profile():
         flash("This user doesn't exist")
         return redirect(url_for('home'))
     return render_template('profile.html', user=user)
+
+@app.route('/manage_quizzes')
+def manage_quizzes():
+    # List of all the quizzes
+    query = 'SELECT * FROM quiz ORDER BY level ASC'
+    quiz = query_db(query)
+    return render_template('manage_quizzes.html', quiz=quiz)
+
+@app.route('/add_question')
+def add_question():
+    # Security
+    if session.logged_in and session.username == app.config['username']:
+        return render_template('add_question.html')
+    else:
+        flash("You are not allowed to show this content.")
+        return redirect(url_for('home'))
 
 @app.route('/rules')
 def rules():

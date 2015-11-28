@@ -10,9 +10,16 @@ CREATE TABLE users (
     level varchar(50) NOT NULL DEFAULT "Beginner"
 );
 
+CREATE TABLE quiz (
+    id integer PRIMARY KEY autoincrement,
+    title varchar(150) NOT NULL,
+    level varchar(50) NOT NULL
+);
+
 CREATE TABLE questions {
     id integer PRIMARY KEY autoincrement,
     question varchar(400) NOT NULL,
+    quiz_id integer NOT NULL,
     answer_id integer NOT NULL
 };
 

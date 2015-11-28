@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<h2>Manage the quizzes</h2>
+
+{% if quiz %}
+    <ul>
+    {% for q in quiz %}
+        <li><a href="#">{{ quiz.title }} - {{ quiz.level }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p class="alert alert-info">No quiz so far. <a href="">Would you like to create one?</a></p>
+{% endif %}
+
+{% endblock %}

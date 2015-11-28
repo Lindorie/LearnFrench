@@ -66,6 +66,15 @@
                 <li><a href="{{ url_for('home') }}">Games</a></li>
             </ul>
         </nav>
+        {% if session.logged_in and session.username is "admin" %}
+            <nav class="admin">
+                <h2>Administration</h2>
+                <ul>
+                    <li><a href="{{ url_for('manage_quizzes') }}">Manage quizzes</a></li>
+                    <li><a href="{{ url_for('add_question') }}">Add a question</a></li>
+                </ul>
+            </nav>
+        {% endif %}
     </div>
     <div id="right-side">
         {% for message in get_flashed_messages() %}
