@@ -69,21 +69,29 @@ def login():
     if request.method == 'POST':
         # Check if the fields are not empty
         if request.form['username'] != '' and request.form['password'] != '':
-            # Check if the username exists in the database
-            query = 'SELECT * FROM users WHERE username = ?'
-            user = query_db(query, [request.form['username']], one=True)
-            if user:
-                # Check if the passwords are identical
-                testPassword = bcrypt.check_password_hash(user['password'], request.form['password'])
-                if testPassword:
-                    session['logged_in'] = True
-                    session['id'] = user['id']
-                    flash('You were logged in.')
+            # Check if it is admin
+            if request.form['username'] == 'admin':
+                # Check the password for admin
+                if request.form['password'] == app.config['password']:
                     return redirect(url_for('home'))
                 else:
                     error = 'Invalid password'
             else:
-                error = "This username doesn't exist."
+                # Check if the username exists in the database
+                query = 'SELECT * FROM users WHERE username = ?'
+                user = query_db(query, [request.form['username']], one=True)
+                if user:
+                    # Check if the passwords are identical
+                    testPassword = bcrypt.check_password_hash(user['password'], request.form['password'])
+                    if testPassword:
+                        session['logged_in'] = True
+                        session['id'] = user['id']
+                        flash('You were logged in.')
+                        return redirect(url_for('home'))
+                    else:
+                        error = 'Invalid password'
+                else:
+                    error = "This username doesn't exist."
         else:
             error = "All the fields are mandatory. Please provide your username and your password"
     return render_template('login.html', error=error)
@@ -103,7 +111,7 @@ def register():
         # Check if the username exists
         query = 'SELECT * FROM users WHERE username = ?'
         testUsername = query_db(query, [request.form['username']])
-        if testUsername:
+        if testUsername or form['username'] == 'admin':
             error.append("Sorry, this username is not available. Please choose another one")
         # Check if the passwords are identical
         if request.form['password'] != request.form['password2']:
