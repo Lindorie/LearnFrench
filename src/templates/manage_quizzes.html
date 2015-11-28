@@ -7,7 +7,7 @@
 {% if quiz %}
     <ul>
     {% for q in quiz %}
-        <li><a href="#">{{ quiz.title }} - {{ quiz.level }}</a></li>
+        <li><a href="#">{{ q.title }}</a> - {{ q.level }}</li>
     {% endfor %}
     </ul>
 {% else %}

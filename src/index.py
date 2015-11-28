@@ -166,7 +166,7 @@ def add_quiz():
             db.cursor().execute('INSERT INTO quiz (title, level) VALUES (?,?)', [request.form['title'], request.form['level']])
             db.commit()
             flash('The quiz was added.')
-            return redirect(url_for('manage_quizzes.html'))
+            return redirect(url_for('manage_quizzes'))
         else:
             error = "You must enter a title and a level."
             return render_template('add_quiz.html', error=error, form=request.form)
