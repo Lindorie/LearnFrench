@@ -66,7 +66,7 @@
                 <li><a href="{{ url_for('home') }}">Games</a></li>
             </ul>
         </nav>
-        {% if session.logged_in and session.username is "admin" %}
+        {% if session.logged_in and session.username == "admin" %}
             <nav class="admin">
                 <h2>Administration</h2>
                 <ul>

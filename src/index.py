@@ -158,7 +158,7 @@ def manage_quizzes():
 @app.route('/add_question')
 def add_question():
     # Security
-    if session.logged_in and session.username == app.config['username']:
+    if session['logged_in'] and session['username'] == app.config['username']:
         return render_template('add_question.html')
     else:
         flash("You are not allowed to show this content.")
