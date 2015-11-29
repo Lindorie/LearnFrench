@@ -258,6 +258,68 @@ def add_question():
         flash("You are not allowed to show this content.")
         return redirect(url_for('home'))
 
+@app.route('/show_questions/<int:id>')
+def show_questions(id):
+    # All the questions for this quiz with the right answer
+    query_q = 'SELECT id, question, answer_id FROM questions WHERE quiz_id = ?'
+    answers = {}
+    questions = query_db(query_q, [id])
+    for q in questions:
+        query_a = 'SELECT answer FROM answers WHERE question_id = ?'
+        right_answer = query_db(query_a, [q.id])
+        answers[q.id] = right_answer
+    # Quiz information
+    query = 'SELECT * FROM quiz WHERE id = ?'
+    quiz = query_db(query, [id], one=True)
+    return render_template('show_questions.html', questions=questions, answers=answers, quiz=quiz)
+
+@app.route('/edit_question/<int:id>', methods=['GET', 'POST'])
+def edit_question(id):
+    # Answers
+    query_a = 'SELECT * FROM answers WHERE question_id = ?'
+    answers = query_db(query_a, [id])
+    if request.method == "POST":
+        # Check if the fields are not empty
+        db = get_db()
+        cur = db.cursor()
+        # Update the question
+        cur.execute('UPDATE questions SET question = ?, quiz_id = ?', [request.form['title'], request.form['quiz']])
+        # The right answer is
+        right_answer = request.form['answers']
+        # Update the answers
+        # Loop
+        for a in answers:
+            cur.execute('UPDATE answers SET answer = ? WHERE id = ?', [request.form[a.id], id])
+        # Update the right answer from the question table
+        cur.execute('UPDATE questions SET answer_id = ? WHERE id = ?', [right_answer, id])
+        db.commit()
+        text_flash = 'The question '+ request.form['title'] + ' was updated.'
+        flash(text_flash)
+        return redirect('show_questions', quiz=request.form['quiz'])
+    # Question information
+    query_q = 'SELECT * FROM questions WHERE id = ?'
+    question = query_db(query_q, [id], one=True)
+    # List of all the quizzes
+    query = 'SELECT * FROM quiz ORDER BY level ASC'
+    quiz = query_db(query)
+    return render_template('edit_question.html', question=question, quiz=quiz, answers=answers)
+
+@app.route('/remove_question/<int:id>')
+def remove_question(id):
+    if not session.get('logged_in') and session['username'] == "admin":
+        abort(401)
+    query = 'SELECT quiz_id FROM questions WHERE id = ?'
+    quiz_id = query_db(query, [id], one=True)
+    cur = g.db.cursor()
+    # Remove all the answers
+    cur.execute('DELETE FROM answers WHERE question_id = ?', [id])
+    # Remove the question in the DB
+    cur.execute('DELETE FROM questions WHERE id = ?', [id])
+    g.db.commit()
+    flash('The question was successfully removed.')
+    return redirect(url_for('show_questions', id=quiz_id))
+
+
 @app.route('/rules')
 def rules():
     return render_template('rules.html')
