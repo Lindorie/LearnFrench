@@ -5,7 +5,8 @@
 <h2>Quiz for beginners</h2>
 
 
-<form method="post" action="">
+
+<form method="post" action="{{ url_for('quiz_beginners') }}">
     {% for question in questions %}
     <div id="question{{ question.id }}">
         <h3>{{ question.question }}</h3>
@@ -13,15 +14,15 @@
           {% for a in answers[question.id] %}
             <div class="radio">
               <label for="{{ a.id }}">
-                  <input type="radio" value="{{ a.id }}" name="{{ question.id }}" id="{{
-                  a.id }}">
+                  <input type="radio" value="{{ a.id }}" name="{{ question.id }}" id="{{ a.id }}">
                 {{ a.answer }}</label>
             </div>
           {% endfor %}
     </div>
     {% endfor %}
     <div class="text-center">
-      <input type="submit" value="Confirm my answers" class="btn btn-success" />
+        <input type="hidden" name="questions" value="{{ questions }}">
+        <input type="submit" value="Confirm my answers" class="btn btn-success" />
     </div>
 </form>
 

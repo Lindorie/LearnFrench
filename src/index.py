@@ -345,18 +345,50 @@ def basic_voc():
 def build_sentence():
     return render_template('build_sentence.html')
 
-@app.route('/quiz_beginners')
+@app.route('/quiz_beginners', methods=['GET', 'POST'])
 def quiz_beginners():
-    # 10 random questions
-    query = 'SELECT * FROM questions WHERE quiz_id = 2 ORDER BY RANDOM() LIMIT 0,10'
-    questions = query_db(query)
+    points = 0
+    if request.method == "POST":
+        if session['username'] == "admin":
+            # tests
+            questions = request.form['questions']
+            for question in questions:
+                answer_id = question['answer_id']
+                question_id = str(question.id)
+                if answer_id == request.form[question_id]:
+                    points += 1
+        else:
+            questions = request.form['questions']
+            points = 0
+            for question in questions:
+                answer_id = question['answer_id']
+                question_id = str(question.id)
+                if answer_id == request.form[question_id]:
+                    points += 1
+            user_id = session['id']
+            query = 'UPDATE users SET points = ? WHERE id = ?'
+            db = get_db()
+            cur = db.cursor()
+            cur.execute(query, [points, user_id])
+            db.commit()
+        if points < 4:
+            message = "Hey! Try to read the basics again."
+        elif points < 7:
+            message = "Good job."
+        elif points < 11:
+            message = "You're a master of French! Well done!"
+        flash(message)
+    if not questions:
+        # 10 random questions
+        query = 'SELECT * FROM questions WHERE quiz_id = 2 ORDER BY RANDOM() LIMIT 0,10'
+        questions = query_db(query)
     answers = {}
     for q in questions:
         question_id = q['id']
         query_a = 'SELECT * FROM answers WHERE question_id = ?'
         a = query_db(query_a, [question_id])
         answers[question_id] = a
-    return render_template('quiz_beginners.html', questions=questions, answers=answers)
+    return render_template('quiz_beginners.html', questions=questions, answers=answers, points=points)
 
 if __name__ == '__main__':
     init(app)
