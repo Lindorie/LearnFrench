@@ -153,7 +153,13 @@ def manage_quizzes():
     # List of all the quizzes
     query = 'SELECT * FROM quiz ORDER BY level ASC'
     quiz = query_db(query)
-    return render_template('manage_quizzes.html', quiz=quiz)
+    questions = {}
+    for q in quiz:
+        quiz_id = q['id']
+        query = 'SELECT count(id) as nb FROM questions WHERE quiz_id = ?'
+        count = query_db(query, [quiz_id])
+        questions[quiz_id] = count['nb']
+    return render_template('manage_quizzes.html', quiz=quiz, questions=questions)
 
 @app.route('/add_quiz', methods=['GET', 'POST'])
 def add_quiz():
