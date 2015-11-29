@@ -172,7 +172,7 @@ def add_quiz():
             return render_template('add_quiz.html', error=error, form=request.form)
     return render_template('add_quiz.html')
 
-@app.route('/edit_quiz/<int:id>', method=['GET', 'POST'])
+@app.route('/edit_quiz/<int:id>', methods=['GET', 'POST'])
 def edit_quiz(id):
     if request.method == "POST":
         error = None
@@ -180,7 +180,8 @@ def edit_quiz(id):
         if request.form['title'] != '' and request.form['level'] != '':
             # Update the quiz into DB
             db = get_db()
-            db.cursor().execute('UPDATE quiz SET title = ?, level = ?', [request.form['title'], request.form['level']])
+            db.cursor().execute('UPDATE quiz SET title = ?, level = ? WHERE id\
+            = ?', [request.form['title'], request.form['level'], id])
             db.commit()
             flash('The quiz was updated.')
             return redirect(url_for('manage_quizzes'))
@@ -193,7 +194,7 @@ def edit_quiz(id):
     return render_template('edit_quiz.html', quiz=quiz)
 
 @app.route('/remove_quiz/<int:id>')
-def delete(id):
+def remove_quiz(id):
     if not session.get('logged_in') and session['username'] == "admin":
         abort(401)
     cur = g.db.cursor()
