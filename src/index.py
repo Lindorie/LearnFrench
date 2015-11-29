@@ -348,6 +348,7 @@ def build_sentence():
 @app.route('/quiz_beginners', methods=['GET', 'POST'])
 def quiz_beginners():
     points = 0
+    questions = None
     if request.method == "POST":
         if session['username'] == "admin":
             # tests
@@ -358,8 +359,12 @@ def quiz_beginners():
                 if answer_id == request.form[question_id]:
                     points += 1
         else:
+            # Seems to not return a correct answer (string instead of
+            # collection)
             questions = request.form['questions']
+            # print questions
             points = 0
+            # doesn't work...
             for question in questions:
                 answer_id = question['answer_id']
                 question_id = str(question.id)
@@ -378,7 +383,7 @@ def quiz_beginners():
         elif points < 11:
             message = "You're a master of French! Well done!"
         flash(message)
-    if not questions:
+    if questions is None:
         # 10 random questions
         query = 'SELECT * FROM questions WHERE quiz_id = 2 ORDER BY RANDOM() LIMIT 0,10'
         questions = query_db(query)
