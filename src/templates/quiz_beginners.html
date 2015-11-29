@@ -5,5 +5,18 @@
 <h2>Quiz for beginners</h2>
 
 
+<form method="post" action="">
+    {% for question in questions %}
+    <div id="question{{ question.id }}" class="container">
+        <h3>{{ question.question }}</h3>
+
+            <div class="list-group">
+                {% for a in answers %}
+                <button type="button" class="list-group-item" name="{{ a.id }}" value="{{ a.id }}">{{ a.answer }}</button>
+                {% endfor %}
+            </div>
+    </div>
+    {% endfor %}
+</form>
 
 {% endblock %}
