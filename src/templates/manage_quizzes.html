@@ -7,7 +7,7 @@
 {% if quiz %}
     <ul>
     {% for q in quiz %}
-        <li><a href="{{ url__for('show_questions') }}">{{ q.title }}</a> - {{ q.level }}
+        <li><a href="{{ url_for('show_questions', id=q.id) }}">{{ q.title }}</a> - {{ q.level }}
             <a href="{{ url_for('edit_quiz', id=q.id) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
             <a href="{{ url_for('remove_quiz', id=q.id) }}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
         </li>

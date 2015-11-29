@@ -262,12 +262,14 @@ def add_question():
 def show_questions(id):
     # All the questions for this quiz with the right answer
     query_q = 'SELECT id, question, answer_id FROM questions WHERE quiz_id = ?'
-    answers = {}
     questions = query_db(query_q, [id])
+    answers = {}
     for q in questions:
-        query_a = 'SELECT answer FROM answers WHERE question_id = ?'
-        right_answer = query_db(query_a, [q.id])
-        answers[q.id] = right_answer
+        query_a = 'SELECT answer FROM answers WHERE id = ?'
+        answer_id = q['answer_id']
+        question_id = q['id']
+        right_answer = query_db(query_a, [answer_id], one=True)
+        answers[question_id] = right_answer['answer']
     # Quiz information
     query = 'SELECT * FROM quiz WHERE id = ?'
     quiz = query_db(query, [id], one=True)
@@ -279,23 +281,27 @@ def edit_question(id):
     query_a = 'SELECT * FROM answers WHERE question_id = ?'
     answers = query_db(query_a, [id])
     if request.method == "POST":
-        # Check if the fields are not empty
         db = get_db()
         cur = db.cursor()
         # Update the question
-        cur.execute('UPDATE questions SET question = ?, quiz_id = ?', [request.form['title'], request.form['quiz']])
+        quiz_id = request.form['quiz']
+        cur.execute('UPDATE questions SET question = ?, quiz_id = ? WHERE id =\
+        ?', [request.form['title'], quiz_id, id])
         # The right answer is
         right_answer = request.form['answers']
         # Update the answers
         # Loop
         for a in answers:
-            cur.execute('UPDATE answers SET answer = ? WHERE id = ?', [request.form[a.id], id])
+            answer_id = a['id']
+            answer_id_str = str(answer_id)
+            answer = request.form[answer_id_str]
+            cur.execute('UPDATE answers SET answer = ? WHERE id = ?', [answer, answer_id])
         # Update the right answer from the question table
         cur.execute('UPDATE questions SET answer_id = ? WHERE id = ?', [right_answer, id])
         db.commit()
         text_flash = 'The question '+ request.form['title'] + ' was updated.'
         flash(text_flash)
-        return redirect('show_questions', quiz=request.form['quiz'])
+        return redirect(url_for('show_questions', id=quiz_id))
     # Question information
     query_q = 'SELECT * FROM questions WHERE id = ?'
     question = query_db(query_q, [id], one=True)
@@ -309,7 +315,8 @@ def remove_question(id):
     if not session.get('logged_in') and session['username'] == "admin":
         abort(401)
     query = 'SELECT quiz_id FROM questions WHERE id = ?'
-    quiz_id = query_db(query, [id], one=True)
+    q = query_db(query, [id], one=True)
+    quiz_id = q['quiz_id']
     cur = g.db.cursor()
     # Remove all the answers
     cur.execute('DELETE FROM answers WHERE question_id = ?', [id])

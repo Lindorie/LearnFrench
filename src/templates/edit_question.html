@@ -11,7 +11,7 @@
     </div>
 {% endif %}
 
-<form action="{{ url_for('edit_question') }}" method="post" class="col-lg-6">
+<form action="{{ url_for('edit_question', id=question.id) }}" method="post" class="col-lg-6">
     <div class="form-group">
         <label for="title">Title</label>
         <input required class="form-control" type="text" name="title" id="title" value="{% if question %} {{ question.question }} {% endif %}" />
