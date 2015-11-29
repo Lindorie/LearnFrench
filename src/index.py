@@ -209,11 +209,44 @@ def delete(id):
     flash('The quiz was successfully removed.')
     return redirect(url_for('manage_quizzes'))
 
-@app.route('/add_question')
+@app.route('/add_question', methods=['GET', 'POST'])
 def add_question():
     # Security
     if session['logged_in'] and session['username'] == app.config['username']:
-        return render_template('add_question.html')
+        if request.method == 'POST':
+            db = get_db()
+            # Insert the question
+            db.cursor().execute('INSERT INTO questions (question, quiz_id, answer_id) VALUES (?,?,?)', [request.form['title'], request.form['quiz'], 0])
+            db.commit()
+            question_id = str(db.cursor().lastrowid)
+            # The right answer is
+            right_answer = request.form['answers']
+            # Insert the answers
+            db.cursor().execute('INSERT INTO answers (answer, question_id) VALUES (?,?)', [request.form['answer1'], question_id])
+            db.commit()
+            answer_id = None
+            if right_answer is 1:
+                answer_id = str(db.cursor().lastrowid)
+            db.cursor().execute('INSERT INTO answers (answer, question_id) VALUES (?,?)', [request.form['answer2'], question_id])
+            db.commit()
+            if right_answer is 2:
+                answer_id = str(db.cursor().lastrowid)
+            db.cursor().execute('INSERT INTO answers (answer, question_id) VALUES (?,?)', [request.form['answer3'], question_id])
+            db.commit()
+            if right_answer is 3:
+                answer_id = str(db.cursor().lastrowid)
+            db.cursor().execute('INSERT INTO answers (answer, question_id) VALUES (?,?)', [request.form['answer4'], question_id])
+            db.commit()
+            if right_answer is 4:
+                answer_id = str(db.cursor().lastrowid)
+            # Update the right answer from the question table
+            db.cursor().execute('UPDATE question SET answer_id = ? WHERE id = ?', [answer_id, question_id])
+            flash('Your question was added. You can add one more.')
+            return render_template('add_question.html')
+        # List of all the quizzes
+        query = 'SELECT * FROM quiz ORDER BY level ASC'
+        quiz = query_db(query)
+        return render_template('add_question.html', quiz=quiz)
     else:
         flash("You are not allowed to show this content.")
         return redirect(url_for('home'))

@@ -4,6 +4,81 @@
 
 <h2>Add a question</h2>
 
+{% if error %}
+    <div class="alert alert-danger" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <p class="error"><strong>Error:</strong> {{ error }}</p>
+    </div>
+{% endif %}
 
+<form action="{{ url_for('add_question') }}" method="post" class="col-lg-6">
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input required class="form-control" type="text" name="title" id="title" value="{% if form %} {{ form.title }} {% endif %}" />
+    </div>
+    <div class="form-group">
+        <label for="quiz">Relative quiz</label>
+        <select required class="form-control" name="quiz" id="quiz">
+            <option value="">-- Select a quiz</option>
+            {% for q in quiz %}
+            <option value="{{ q.id }}">{{ q.title }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <h3>Possible answers</h3>
+
+    <p class="alert alert-info">Please check the right answer.</p>
+    <div class="form-group">
+
+        <div class="input-group">
+          <div class="input-group-addon">
+              <div class="radio">
+                  <label>
+                    <input type="radio" name="answers" id="answer_radio1" value="1">
+                    Right
+                  </label>
+                </div>
+          </div>
+        <input required class="form-control" placeholder="Answer 1" type="text" name="answer1" id="answer1" value="{% if form %} {{ form.answer1 }} {% endif %}" />
+        </div>
+        <div class="input-group">
+          <div class="input-group-addon">
+              <div class="radio">
+                  <label>
+                    <input type="radio" name="answers" id="answer_radio2" value="2">
+                    Right
+                  </label>
+                </div>
+          </div>
+        <input required class="form-control" placeholder="Answer 2" type="text" name="answer2" id="answer2" value="{% if form %} {{ form.answer2 }} {% endif %}" />
+        </div>
+        <div class="input-group">
+          <div class="input-group-addon">
+              <div class="radio">
+                  <label>
+                    <input type="radio" name="answers" id="answer_radio3" value="3">
+                    Right
+                  </label>
+                </div>
+          </div>
+        <input required class="form-control" placeholder="Answer 3" type="text" name="answer3" id="answer3" value="{% if form %} {{ form.answer3 }} {% endif %}" />
+        </div>
+        <div class="input-group">
+          <div class="input-group-addon">
+              <div class="radio">
+                  <label>
+                    <input type="radio" name="answers" id="answer_radio4" value="4">
+                    Right
+                  </label>
+                </div>
+          </div>
+        <input required class="form-control" placeholder="Answer 4" type="text" name="answer4" id="answer4" value="{% if form %} {{ form.answer4 }} {% endif %}" />
+        </div>
+
+    </div>
+
+    <input type="submit" class="btn btn-default" value="Add this question" />
+</form>
 
 {% endblock %}
