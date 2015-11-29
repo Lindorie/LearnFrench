@@ -155,7 +155,7 @@ def manage_quizzes():
     quiz = query_db(query)
     questions = {}
     for q in quiz:
-        quiz_id = q['id']
+        quiz_id = int(q['id'])
         query = 'SELECT count(id) as nb FROM questions WHERE quiz_id = ?'
         count = query_db(query, [quiz_id], one=True)
         questions[quiz_id] = count['nb']
@@ -348,13 +348,14 @@ def build_sentence():
 @app.route('/quiz_beginners')
 def quiz_beginners():
     # 10 random questions
-    query = 'SELECT * FROM questions WHERE quiz_id = 2 ORDER BY RAND() LIMIT 0,10'
+    query = 'SELECT * FROM questions WHERE quiz_id = 2 ORDER BY RANDOM() LIMIT 0,10'
     questions = query_db(query)
     answers = {}
     for q in questions:
+        question_id = q['id']
         query_a = 'SELECT * FROM answers WHERE question_id = ?'
-        a = query_db(query_a, [q.id])
-        answers[q.id] = a
+        a = query_db(query_a, [question_id])
+        answers[question_id] = a
     return render_template('quiz_beginners.html', questions=questions, answers=answers)
 
 if __name__ == '__main__':

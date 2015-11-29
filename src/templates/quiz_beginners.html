@@ -7,16 +7,22 @@
 
 <form method="post" action="">
     {% for question in questions %}
-    <div id="question{{ question.id }}" class="container">
+    <div id="question{{ question.id }}">
         <h3>{{ question.question }}</h3>
 
-            <div class="list-group">
-                {% for a in answers %}
-                <button type="button" class="list-group-item" name="{{ a.id }}" value="{{ a.id }}">{{ a.answer }}</button>
-                {% endfor %}
+          {% for a in answers[question.id] %}
+            <div class="radio">
+              <label for="{{ a.id }}">
+                  <input type="radio" value="{{ a.id }}" name="{{ question.id }}" id="{{
+                  a.id }}">
+                {{ a.answer }}</label>
             </div>
+          {% endfor %}
     </div>
     {% endfor %}
+    <div class="text-center">
+      <input type="submit" value="Confirm my answers" class="btn btn-success" />
+    </div>
 </form>
 
 {% endblock %}
