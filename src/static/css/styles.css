@@ -166,3 +166,12 @@ span.eg a.sound {
     font-size: inherit;
     display: inline-block;
 }
+
+.input-group div.radio {
+  margin: 0;
+}
+
+.radio input[type="radio"] {
+  position: static;
+  margin: 0;
+}
