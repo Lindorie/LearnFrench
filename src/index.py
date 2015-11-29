@@ -172,6 +172,43 @@ def add_quiz():
             return render_template('add_quiz.html', error=error, form=request.form)
     return render_template('add_quiz.html')
 
+@app.route('/edit_quiz/<int:id>', method=['GET', 'POST'])
+def edit_quiz(id):
+    if request.method == "POST":
+        error = None
+        # Check if the fields are not empty
+        if request.form['title'] != '' and request.form['level'] != '':
+            # Update the quiz into DB
+            db = get_db()
+            db.cursor().execute('UPDATE quiz SET title = ?, level = ?', [request.form['title'], request.form['level']])
+            db.commit()
+            flash('The quiz was updated.')
+            return redirect(url_for('manage_quizzes'))
+        else:
+            error = "You must enter a title and a level."
+            return render_template('edit_quiz.html', error=error, form=request.form)
+    # Quiz information
+    query = 'SELECT * FROM quiz WHERE id = ?'
+    quiz = query_db(query, [id], one=True)
+    return render_template('edit_quiz.html', quiz=quiz)
+
+@app.route('/remove_quiz/<int:id>')
+def delete(id):
+    if not session.get('logged_in') and session['username'] == "admin":
+        abort(401)
+    cur = g.db.cursor()
+    # Remove in the DB
+    cur.execute('DELETE FROM quiz WHERE id = ?', [id])
+    # Remove all the questions and answers
+    questions = query_db('SELECT id FROM questions WHERE quiz_id = ?', [id])
+    if questions:
+        for q in questions:
+            cur.execute('DELETE FROM answers WHERE question_id = ?', [q.id])
+            cur.execute('DELETE FROM questions WHERE id = ?', [q.id])
+    g.db.commit()
+    flash('The quiz was successfully removed.')
+    return redirect(url_for('manage_quizzes'))
+
 @app.route('/add_question')
 def add_question():
     # Security
